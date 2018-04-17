@@ -18,7 +18,8 @@ import java.util.ArrayList;
 public class TroisStationsActivity extends AppCompatActivity {
     ArrayList<Station> lesStations;
     TroisStationsActivity.TroisStationsAdapter adaptateur;
-    ListView listViewStations;
+    ListView listViewStations = null;
+    Station stationPrincipale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +42,12 @@ public class TroisStationsActivity extends AppCompatActivity {
                 Intent uneIntention = getIntent();
 
                 Station uneStation = (Station) uneIntention.getSerializableExtra("stationBase");
+                stationPrincipale = uneStation;
+
                 double latitude = uneStation.getLatitude();
                 double longitude = uneStation.getLongitude();
 
-                lesStations = Passerelle.getLesStations(latitude, longitude);
+                lesStations = Passerelle.getLesTroisStations(latitude, longitude);
             }
             catch (Exception ex) {
                 return ex;
@@ -64,7 +67,7 @@ public class TroisStationsActivity extends AppCompatActivity {
             else {
                 adaptateur = new TroisStationsActivity.TroisStationsAdapter(TroisStationsActivity.this,
                         R.layout.station_distance, lesStations);
-                listViewStations = (ListView) findViewById(R.id.listViewStations);
+                listViewStations = (ListView) findViewById(R.id.ListViewTroisStations);
                 listViewStations.setAdapter(adaptateur);
             }
         }
@@ -90,7 +93,7 @@ public class TroisStationsActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater;
             View rowView;
-            TextView textViewVelosDispo, textViewEmplacementDispo, textViewEtat, textViewName, textViewCoordonnees, textViewDistance;
+            TextView textViewVelosDispo, textViewEmplacementDispo, textViewEtat, textViewName, textViewCoordonnees, textViewDistance, textViewstationPrinciale;
             Station uneStation;
 
             // demande d'obtention d'un désérialisateur de layout xml,
@@ -104,8 +107,9 @@ public class TroisStationsActivity extends AppCompatActivity {
             textViewEtat = (TextView) rowView.findViewById(R.id.textViewEtat);
             textViewVelosDispo = (TextView) rowView.findViewById(R.id.textViewVelosDispo);
             textViewEmplacementDispo = (TextView) rowView.findViewById(R.id.textViewEmplacementDispo);
-            textViewCoordonnees = (TextView) rowView.findViewById(R.id.textViewCoordonnees);
+            //textViewCoordonnees = (TextView) rowView.findViewById(R.id.textViewCoordonnees);
             textViewDistance = (TextView) rowView.findViewById(R.id.textViewDistance);
+            textViewstationPrinciale = (TextView) findViewById(R.id.textViewVarStation);
 
             // affecte le contenu des widgets d'après le contenu de l'élément reçu
             uneStation = values.get(position);
@@ -113,8 +117,9 @@ public class TroisStationsActivity extends AppCompatActivity {
             textViewEtat.setText(uneStation.getEtat());
             textViewVelosDispo.setText(String.valueOf(uneStation.getNbVelosDisponibles()));
             textViewEmplacementDispo.setText(String.valueOf(uneStation.getNbAttachesDisponibles()));
-            textViewCoordonnees.setText(uneStation.getLatitude().toString() + ";" + uneStation.getLongitude().toString());
+            //textViewCoordonnees.setText(uneStation.getLatitude().toString() + ";" + uneStation.getLongitude().toString());
             textViewDistance.setText(uneStation.getDistance());
+            textViewstationPrinciale.setText(String.valueOf(stationPrincipale.getNom()));
             return rowView;
 
         }

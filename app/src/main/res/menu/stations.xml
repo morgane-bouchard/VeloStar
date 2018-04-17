@@ -1,8 +1,22 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
         android:title="@string/action_settings"/>
 
+    <item
+        android:id="@+id/action_geoloc"
+        android:orderInCategory="110"
+        android:title="Géolocaliser" />
+
+    <item
+        android:id="@+id/action_tri_alpha"
+        android:orderInCategory="110"
+        android:title="Trier par ordre alphabétique" />
+
+    <item
+        android:id="@+id/action_tri_distance"
+        android:orderInCategory="110"
+        android:title="Trier par distance" />
 </menu>

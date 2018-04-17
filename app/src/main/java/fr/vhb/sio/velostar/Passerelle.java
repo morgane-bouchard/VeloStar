@@ -73,7 +73,37 @@ public class Passerelle {
         }
     }
 
-    public static ArrayList<Station> getLesStations(Double latitude, Double longitude) throws Exception
+    public static ArrayList<Station> getLesStations(Double latitude, Double longitude) throws Exception {
+        String urlTroisStations = "https://data.explore.star.fr/api/records/1.0/search/?dataset=vls-stations-etat-tr&rows=100&start=1&geofilter.distance=";
+        urlTroisStations += latitude + "%2C+" + longitude + "%2C5000";
+        JSONObject unObjetJSON;
+        ArrayList<Station> lesStations;
+        // initialisation d'une liste de stations
+        lesStations = new ArrayList<Station>();
+        try
+        {
+            String uneChaineUri = urlTroisStations;
+            unObjetJSON = loadResultJSON(uneChaineUri);
+
+            // récupération du tableau JSON nommé records
+            JSONArray arrayStations = unObjetJSON.getJSONArray("records");
+
+            // parcours du tableau json
+            for (int i = 0 ; i < arrayStations.length() ; i++)
+            {
+                // création de l'élement courant à chaque tour de boucle
+                Station uneStation = getStation(arrayStations.getJSONObject(i).getJSONObject("fields"));
+                lesStations.add(uneStation);
+            }
+            return lesStations;		// retourne la liste des stations
+        }
+        catch (Exception ex)
+        {	Log.e("Passerelle", "Erreur exception : " + ex.toString());
+            throw (ex);
+        }
+    }
+
+    public static ArrayList<Station> getLesTroisStations(Double latitude, Double longitude) throws Exception
     {
         String urlTroisStations = "https://data.explore.star.fr/api/records/1.0/search/?dataset=vls-stations-etat-tr&rows=3&start=1&geofilter.distance=";
         urlTroisStations += latitude + "%2C+" + longitude + "%2C5000";

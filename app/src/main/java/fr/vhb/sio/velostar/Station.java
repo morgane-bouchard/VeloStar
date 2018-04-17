@@ -1,14 +1,17 @@
 package fr.vhb.sio.velostar;
 
+import android.support.annotation.NonNull;
+
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * Cette classe décrit une station de VéloStar
  *
  */
-public class Station implements Serializable{
+public class Station implements Serializable, Comparable<Station> {
 	/** Membres privés */
 	private int _id;					// id de la station
 	private String _nom;				// nom de la station
@@ -87,5 +90,9 @@ public class Station implements Serializable{
 		return  this.getNom()  + ":" + getNbAttachesDisponibles() + ":" + this.getNbVelosDisponibles();
 	}
 
-
+	@Override
+	public int compareTo(@NonNull Station s) {
+		int i = Double.parseDouble(this.getDistance())>Double.parseDouble(s.getDistance())?1:Double.parseDouble(this.getDistance())<Double.parseDouble(s.getDistance())?-1:0;
+		return i;
+	}
 }
